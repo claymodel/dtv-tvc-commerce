@@ -1,0 +1,45 @@
+DTV Remote Control ECommerce
+
+Target Device 
+	Toshiba Regza DTV
+	Google TV
+	One Seg TV
+
+Customization of AWS SDK for Toshiba REGZA
+
+
+Ways to Develop Android Web Services Application
+
+Two available wyas i.e.,
+1. Professional and businessable way --> AWS Android SDK + AMI Server , Amazon SimpleDb, S3, SNS, SQS  [A]
+2. Cheaper but own SDK development way  + AMI(Amazon Machine Image) Servers --->  [B], [C]
+
+
+[A]. AWS SDK for Android Samples
+
+http://aws.amazon.com/articles/4225549089557252
+
+[B]. Accessing a JAX-WS web service from Android
+
+http://www.ibm.com/developerworks/webservices/library/ws-android/index.html?ca=drs-
+
+[C]. Develop and deploy JAX-WS Web services on WebSphere Application Server Community Edition V2.0
+
+http://www.ibm.com/developerworks/websphere/library/techarticles/0709_gawor/0709_gawor.html
+
+
+------------------------------------------
+
+[D]. AWS-Android-SDK
+https://github.com/amazonwebservices/aws-sdk-for-android
+
+[E]. AWS-iOS-SDK
+https://github.com/amazonwebservices/aws-sdk-for-ios
+
+[F]. AWS-Java-SDK
+https://github.com/amazonwebservices/aws-sdk-for-java
+
+[G]. AWS-Custom-SDK
+
+
+This will enable to implement professional cloud based eCommerce Applications for Digital TVs, Mobile phones (Android, iPhone, iPad, linux, limo, maemo, meego)
