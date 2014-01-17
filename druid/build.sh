@@ -10,6 +10,8 @@ SCRIPT_DIR=`pwd`
 popd
 
 VERSION=`cat pom.xml | grep version | head -4 | tail -1 | sed 's_.*<version>\([^<]*\)</version>.*_\1_'`
+#TAR_FILE=${SCRIPT_DIR}/${PROJECT}-${VERSION}.tar.gz
+#rm -f ${TAR_FILE}
 
 echo Using Version[${VERSION}]
 
@@ -30,4 +32,4 @@ echo "For examples, see: "
 echo " "
 ls -1 examples/*/*sh
 echo " "
-echo "See also http://druid.io/docs/0.6.51"
+echo "See also https://github.com/metamx/druid/wiki"

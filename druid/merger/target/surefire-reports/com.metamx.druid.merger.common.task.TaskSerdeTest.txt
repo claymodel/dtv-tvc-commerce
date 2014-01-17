@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.metamx.druid.merger.common.task.TaskSerdeTest
+-------------------------------------------------------------------------------
+Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.135 sec

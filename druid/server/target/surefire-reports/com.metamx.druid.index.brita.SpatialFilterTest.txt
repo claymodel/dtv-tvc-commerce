@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.metamx.druid.index.brita.SpatialFilterTest
+-------------------------------------------------------------------------------
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.751 sec

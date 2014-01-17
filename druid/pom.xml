@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
   ~ Druid - a distributed column store.
-  ~ Copyright (C) 2012, 2013  Metamarkets Group Inc.
+  ~ Copyright (C) 2012  Metamarkets Group Inc.
   ~
   ~ This program is free software; you can redistribute it and/or
   ~ modify it under the terms of the GNU General Public License
@@ -20,17 +20,16 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>io.druid</groupId>
+    <groupId>com.metamx</groupId>
     <artifactId>druid</artifactId>
     <packaging>pom</packaging>
-    <version>0.6.52-SNAPSHOT</version>
+    <version>0.4.32.3-SNAPSHOT</version>
     <name>druid</name>
     <description>druid</description>
     <scm>
         <connection>scm:git:ssh://git@github.com/metamx/druid.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/metamx/druid.git</developerConnection>
         <url>http://www.github.com/metamx/druid</url>
-        <tag>${project.artifactId}-${project.version}</tag>
     </scm>
 
     <prerequisites>
@@ -39,46 +38,34 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <metamx.java-util.version>0.25.2</metamx.java-util.version>
-        <apache.curator.version>2.3.0</apache.curator.version>
-        <druid.api.version>0.1.7</druid.api.version>
+        <metamx.java-util.version>0.22.3</metamx.java-util.version>
+        <netflix.curator.version>2.0.2-21-22</netflix.curator.version>
     </properties>
 
     <modules>
         <module>common</module>
-        <module>examples</module>
-        <module>indexing-hadoop</module>
-        <module>indexing-service</module>
-        <module>processing</module>
+        <module>index-common</module>
+        <module>client</module>
+        <module>indexer</module>
         <module>server</module>
+        <module>merger</module>
+        <module>realtime</module>
+        <module>examples</module>
         <module>services</module>
-        <!-- Non-default modules -->
-        <module>cassandra-storage</module>
-        <module>hdfs-storage</module>
-        <module>s3-extensions</module>
-        <module>kafka-seven</module>
-        <module>kafka-eight</module>
-        <module>rabbitmq</module>
     </modules>
 
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>io.druid</groupId>
-                <artifactId>druid-api</artifactId>
-                <version>${druid.api.version}</version>
-            </dependency>
-
             <!-- Compile Scope -->
             <dependency>
                 <groupId>com.metamx</groupId>
                 <artifactId>emitter</artifactId>
-                <version>0.2.9</version>
+                <version>0.2.3</version>
             </dependency>
             <dependency>
                 <groupId>com.metamx</groupId>
                 <artifactId>http-client</artifactId>
-                <version>0.8.5</version>
+                <version>0.7.1</version>
             </dependency>
             <dependency>
                 <groupId>com.metamx</groupId>
@@ -88,12 +75,12 @@
             <dependency>
                 <groupId>com.metamx</groupId>
                 <artifactId>bytebuffer-collections</artifactId>
-                <version>0.0.2</version>
+                <version>0.0.1</version>
             </dependency>
             <dependency>
                 <groupId>com.metamx</groupId>
                 <artifactId>server-metrics</artifactId>
-                <version>0.0.5</version>
+                <version>0.0.2</version>
             </dependency>
 
             <dependency>
@@ -127,37 +114,9 @@
                 <version>2.6</version>
             </dependency>
             <dependency>
-                <groupId>com.amazonaws</groupId>
-                <artifactId>aws-java-sdk</artifactId>
-                <version>1.6.0.1</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>javax.mail</groupId>
-                        <artifactId>mail</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.codehaus.jackson</groupId>
-                        <artifactId>jackson-core-asl</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.codehaus.jackson</groupId>
-                        <artifactId>jackson-mapper-asl</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>commons-codec</groupId>
-                        <artifactId>commons-codec</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-            <dependency>
                 <groupId>com.ning</groupId>
                 <artifactId>compress-lzf</artifactId>
                 <version>0.8.4</version>
-            </dependency>
-            <dependency>
-                <groupId>io.airlift</groupId>
-                <artifactId>airline</artifactId>
-                <version>0.6</version>
             </dependency>
             <dependency>
                 <groupId>org.skife.config</groupId>
@@ -167,27 +126,38 @@
             <dependency>
                 <groupId>org.apache.curator</groupId>
                 <artifactId>curator-client</artifactId>
-                <version>${apache.curator.version}</version>
+                <version>${netflix.curator.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.curator</groupId>
                 <artifactId>curator-framework</artifactId>
-                <version>${apache.curator.version}</version>
+                <version>${netflix.curator.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.curator</groupId>
                 <artifactId>curator-recipes</artifactId>
-                <version>${apache.curator.version}</version>
+                <version>${netflix.curator.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.curator</groupId>
                 <artifactId>curator-x-discovery</artifactId>
-                <version>${apache.curator.version}</version>
+                <version>${netflix.curator.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.hadoop</groupId>
+                <artifactId>hadoop-core</artifactId>
+                <version>0.20.2</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.mortbay.jetty</groupId>
+                        <artifactId>servlet-api-2.5</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>it.uniroma3.mat</groupId>
                 <artifactId>extendedset</artifactId>
-                <version>1.3.4</version>
+                <version>1.3.2</version>
             </dependency>
             <dependency>
                 <groupId>com.google.guava</groupId>
@@ -197,17 +167,12 @@
             <dependency>
                 <groupId>com.google.inject</groupId>
                 <artifactId>guice</artifactId>
-                <version>4.0-beta</version>
+                <version>3.0</version>
             </dependency>
             <dependency>
                 <groupId>com.google.inject.extensions</groupId>
                 <artifactId>guice-servlet</artifactId>
-                <version>4.0-beta</version>
-            </dependency>
-            <dependency>
-                <groupId>com.google.inject.extensions</groupId>
-                <artifactId>guice-multibindings</artifactId>
-                <version>4.0-beta</version>
+                <version>3.0</version>
             </dependency>
             <dependency>
                 <groupId>com.ibm.icu</groupId>
@@ -215,59 +180,39 @@
                 <version>4.8.1</version>
             </dependency>
             <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-annotations</artifactId>
-                <version>2.2.2</version>
+              <groupId>com.fasterxml.jackson.core</groupId>
+              <artifactId>jackson-annotations</artifactId>
+              <version>2.1.4</version>
             </dependency>
             <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-core</artifactId>
-                <version>2.2.2</version>
+              <groupId>com.fasterxml.jackson.core</groupId>
+              <artifactId>jackson-core</artifactId>
+              <version>2.1.4</version>
             </dependency>
             <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-databind</artifactId>
-                <version>2.2.2</version>
+              <groupId>com.fasterxml.jackson.core</groupId>
+              <artifactId>jackson-databind</artifactId>
+              <version>2.1.4</version>
             </dependency>
             <dependency>
-                <groupId>com.fasterxml.jackson.datatype</groupId>
-                <artifactId>jackson-datatype-guava</artifactId>
-                <version>2.2.2</version>
+              <groupId>com.fasterxml.jackson.datatype</groupId>
+              <artifactId>jackson-datatype-guava</artifactId>
+              <version>2.1.2</version>
             </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.datatype</groupId>
                 <artifactId>jackson-datatype-joda</artifactId>
-                <version>2.2.2</version>
+                <version>2.1.2</version>
             </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.dataformat</groupId>
                 <artifactId>jackson-dataformat-smile</artifactId>
-                <version>2.2.2</version>
+                <version>2.1.4</version>
             </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.jaxrs</groupId>
                 <artifactId>jackson-jaxrs-json-provider</artifactId>
-                <version>2.2.2</version>
-            </dependency>
-            <dependency>
-                <groupId>org.codehaus.jackson</groupId>
-                <artifactId>jackson-core-asl</artifactId>
-                <version>1.9.11</version>
-            </dependency>
-            <dependency>
-                <groupId>org.codehaus.jackson</groupId>
-                <artifactId>jackson-mapper-asl</artifactId>
-                <version>1.9.11</version>
-            </dependency>
-            <dependency>
-                <groupId>org.hibernate</groupId>
-                <artifactId>hibernate-validator</artifactId>
-                <version>5.0.1.Final</version>
-            </dependency>
-            <dependency>
-                <groupId>javax.validation</groupId>
-                <artifactId>validation-api</artifactId>
-                <version>1.1.0.Final</version>
+                <version>2.1.4</version>
             </dependency>
             <dependency>
                 <groupId>javax.inject</groupId>
@@ -287,42 +232,33 @@
             <dependency>
                 <groupId>com.sun.jersey</groupId>
                 <artifactId>jersey-core</artifactId>
-                <version>1.17.1</version>
+                <version>1.9.1</version>
             </dependency>
             <dependency>
                 <groupId>com.sun.jersey.contribs</groupId>
                 <artifactId>jersey-guice</artifactId>
-                <version>1.17.1</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>com.google.inject</groupId>
-                        <artifactId>guice</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>com.google.inject.extensions</groupId>
-                        <artifactId>guice-servlet</artifactId>
-                    </exclusion>
-                </exclusions>
+                <version>1.9.1</version>
             </dependency>
             <dependency>
                 <groupId>com.sun.jersey</groupId>
                 <artifactId>jersey-server</artifactId>
-                <version>1.17.1</version>
+                <version>1.9.1</version>
             </dependency>
             <dependency>
-                <groupId>org.eclipse.jetty</groupId>
-                <artifactId>jetty-server</artifactId>
-                <version>8.1.11.v20130520</version>
+                <groupId>net.java.dev.jets3t</groupId>
+                <artifactId>jets3t</artifactId>
+                <version>0.8.1</version>
             </dependency>
             <dependency>
-                <groupId>org.eclipse.jetty</groupId>
-                <artifactId>jetty-servlet</artifactId>
-                <version>8.1.11.v20130520</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.jetty</groupId>
-                <artifactId>jetty-servlets</artifactId>
-                <version>8.1.11.v20130520</version>
+                <groupId>org.mortbay.jetty</groupId>
+                <artifactId>jetty</artifactId>
+                <version>6.1.26</version>
+                    <exclusions>
+                        <exclusion>
+                            <groupId>org.mortbay.jetty</groupId>
+                            <artifactId>servlet-api</artifactId>
+                        </exclusion>
+                    </exclusions>
             </dependency>
             <dependency>
                 <groupId>joda-time</groupId>
@@ -338,6 +274,11 @@
                 <groupId>log4j</groupId>
                 <artifactId>log4j</artifactId>
                 <version>1.2.16</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>servlet-api</artifactId>
+                <version>2.5</version>
             </dependency>
             <dependency>
                 <groupId>org.slf4j</groupId>
@@ -356,7 +297,7 @@
             </dependency>
             <dependency>
                 <groupId>org.antlr</groupId>
-                <artifactId>antlr4-coordinator</artifactId>
+                <artifactId>antlr4-master</artifactId>
                 <version>4.0</version>
             </dependency>
             <dependency>
@@ -364,47 +305,8 @@
                 <artifactId>commons-cli</artifactId>
                 <version>1.2</version>
             </dependency>
-            <dependency>
-                <groupId>net.jpountz.lz4</groupId>
-                <artifactId>lz4</artifactId>
-                <version>1.1.2</version>
-            </dependency>
-            <dependency>
-                <groupId>com.google.protobuf</groupId>
-                <artifactId>protobuf-java</artifactId>
-                <version>2.4.0a</version>
-            </dependency>
-            <dependency>
-                <groupId>io.tesla.aether</groupId>
-                <artifactId>tesla-aether</artifactId>
-                <version>0.0.5</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.aether</groupId>
-                <artifactId>aether-api</artifactId>
-                <version>0.9.0.M2</version>
-            </dependency>
-            <dependency>
-                <groupId>net.java.dev.jets3t</groupId>
-                <artifactId>jets3t</artifactId>
-                <version>0.9.0</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.httpcomponents</groupId>
-                <artifactId>httpclient</artifactId>
-                <version>4.2</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.httpcomponents</groupId>
-                <artifactId>httpcore</artifactId>
-                <version>4.2</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.hadoop</groupId>
-                <artifactId>hadoop-core</artifactId>
-                <version>1.0.3</version>
-                <scope>provided</scope>
-            </dependency>
+
+
 
             <!-- Test Scope -->
             <dependency>
@@ -423,7 +325,7 @@
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
-                <version>4.11</version>
+                <version>4.8.1</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
@@ -435,28 +337,8 @@
             <dependency>
                 <groupId>org.apache.curator</groupId>
                 <artifactId>curator-test</artifactId>
-                <version>${apache.curator.version}</version>
+                <version>${netflix.curator.version}</version>
                 <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>com.ircclouds.irc</groupId>
-                <artifactId>irc-api</artifactId>
-                <version>1.0-0011</version>
-            </dependency>
-            <dependency>
-                <groupId>com.maxmind.geoip2</groupId>
-                <artifactId>geoip2</artifactId>
-                <version>0.4.0</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.apache.httpcomponents</groupId>
-                        <artifactId>httpclient</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.apache.httpcomponents</groupId>
-                        <artifactId>httpcore</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
 
         </dependencies>
@@ -472,13 +354,13 @@
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>2.5.1</version>
                     <configuration>
-                        <source>1.7</source>
-                        <target>1.7</target>
+                        <source>1.6</source>
+                        <target>1.6</target>
                     </configuration>
                 </plugin>
                 <plugin>
                     <artifactId>maven-dependency-plugin</artifactId>
-                    <version>2.8</version>
+                    <version>2.5</version>
                 </plugin>
                 <plugin>
                     <artifactId>maven-deploy-plugin</artifactId>
@@ -502,7 +384,7 @@
                 </plugin>
                 <plugin>
                     <artifactId>maven-shade-plugin</artifactId>
-                    <version>2.1</version>
+                    <version>1.7.1</version>
                 </plugin>
                 <plugin>
                     <artifactId>maven-site-plugin</artifactId>
